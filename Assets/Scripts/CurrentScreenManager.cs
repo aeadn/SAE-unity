@@ -3,6 +3,19 @@ using UnityEngine.SceneManagement;
 
 public class CurrentScreenManager : MonoBehaviour
 {
+    public GameObject gameOverScreen;
+    public VoidEventChannel onPlayerDeath;
+    private void OnEnable(){
+        onPlayerDeath.OnEventRaised += Die;
+    }
+
+    private void OnDisable(){
+        onPlayerDeath.OnEventRaised -= Die;
+    }
+
+    private void Die(){
+        gameOverScreen.SetActive(true);
+    }
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
