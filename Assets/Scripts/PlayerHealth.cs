@@ -1,6 +1,4 @@
 using System.Collections;
-using Unity.VisualScripting;
-using UnityEditor;
 using UnityEngine;
 
 public class PlayerHealth : MonoBehaviour
