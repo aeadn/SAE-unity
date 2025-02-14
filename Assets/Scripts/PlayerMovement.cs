@@ -10,18 +10,11 @@ public class PlayerMovement : MonoBehaviour
     public float groundCheckRadius = 0.2f;
     public bool isGrounded = false;
     public LayerMask listGroundLayers;
+    public BoxCollider2D bc;
     public int maxAllowedJumps = 3;
     public int currentNumberJumps = 0;
     public bool isFacingRight = true;
     public VoidEventChannel onPlayerDeath;
-
-    private void OnEnable() {
-        onPlayerDeath.OnEventRaised += Die;
-    }
-
-    private void OnDisable() {
-        onPlayerDeath.OnEventRaised -= Die;
-    }
         // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -29,8 +22,19 @@ public class PlayerMovement : MonoBehaviour
     }
 
     void Die() {
-        enabled = false;
+        bc.enabled = false;
+        rb.bodyType = RigidbodyType2D.Static;
+        enabled = false; 
     }
+
+    private void OnEnable(){
+        onPlayerDeath.OnEventRaised += Die;
+    }
+
+    private void OnDisable(){
+        onPlayerDeath.OnEventRaised -= Die;
+    }
+
 
     void Flip() {
         if ((moveDirectionX > 0 && !isFacingRight) || (moveDirectionX < 0 && isFacingRight)) {
