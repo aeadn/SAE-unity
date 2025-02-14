@@ -19,7 +19,7 @@ public class CurrentScreenManager : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        
+        gameOverScreen.SetActive(false);        
     }
 
     // Update is called once per frame
@@ -39,4 +39,7 @@ public class CurrentScreenManager : MonoBehaviour
         }
         
     }
+public void RestartGame(){
+    SceneManager.LoadScene(SceneManager.GetActiveScene().name);    
+}
 }
