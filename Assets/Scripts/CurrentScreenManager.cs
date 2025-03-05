@@ -5,6 +5,10 @@ public class CurrentScreenManager : MonoBehaviour
 {
     public GameObject gameOverScreen;
     public VoidEventChannel onPlayerDeath;
+    public GameObject playerMovement;
+    public bool isPaused = false;
+    public GameObject pauseScreen; 
+    public VoidEventChannel onPause;
     private void OnEnable(){
         onPlayerDeath.OnEventRaised += Die;
     }
@@ -19,27 +23,38 @@ public class CurrentScreenManager : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        gameOverScreen.SetActive(false);        
+        gameOverScreen.SetActive(false);
+        pauseScreen.SetActive(false);        
+    }
+
+        public void Pause() {
+        if (Time.timeScale == 0) {
+                Time.timeScale = 1;
+                isPaused = false;
+                playerMovement.GetComponent<PlayerMovement>().enabled = true;
+                pauseScreen.SetActive(false);
+            } else {
+                Time.timeScale = 0;
+                isPaused = true;
+                PlayerMovement.GetComponent<PlayerMovement>().enabled = false;
+                pauseScreen.SetActive(true);
+            }
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Escape)){
-            if (Time.timeScale == 0) {
-                Time.timeScale = 1;
-            }else{
-                Time.timeScale = 0;
-
-            }
+        if (Input.GetKeyDown(KeyCode.Escape)) {
+            Pause();
         }
+#if UNITY_EDITOR 
         if(Input.GetKeyDown(KeyCode.R)) {
-            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
-
+            RestartGame();
         }
-        
+#endif
     }
-public void RestartGame(){
-    SceneManager.LoadScene(SceneManager.GetActiveScene().name);    
-}
+
+    public void RestartGame() {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+    }
 }
