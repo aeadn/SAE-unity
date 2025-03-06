@@ -11,7 +11,7 @@ public class PlayerMovement : MonoBehaviour
     public bool isGrounded = false;
     public LayerMask listGroundLayers;
     public BoxCollider2D bc;
-    public int maxAllowedJumps = 3;
+    public int maxAllowedJumps = 2;
     public int currentNumberJumps = 0;
     public bool isFacingRight = true;
     public VoidEventChannel onPlayerDeath;
@@ -50,13 +50,16 @@ public class PlayerMovement : MonoBehaviour
     void Update()    
     {
         animator.SetFloat("VelocityX", Mathf.Abs(rb.linearVelocityX));
-        animator.SetFloat("VelocityY", rb.linearVelocityX);
+        animator.SetFloat("VelocityY", rb.linearVelocityY);
         animator.SetBool("IsGrounded", isGrounded);
         moveDirectionX = Input.GetAxis("Horizontal");
         
         if (Input.GetKeyDown(KeyCode.Space) && currentNumberJumps < maxAllowedJumps) {
             Jump();
             currentNumberJumps++;
+            if(currentNumberJumps > 1) {
+                animator.SetTrigger("DoubleJump");
+            }
         }
         if (
             isGrounded &&
