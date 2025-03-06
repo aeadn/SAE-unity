@@ -15,6 +15,9 @@ public class PlayerMovement : MonoBehaviour
     public int currentNumberJumps = 0;
     public bool isFacingRight = true;
     public VoidEventChannel onPlayerDeath;
+    public bool onPause;
+    public bool onResume;
+    public bool isPaused = false;
         // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -89,5 +92,11 @@ public class PlayerMovement : MonoBehaviour
                 groundCheckRadius
             );
         }
+    }
+    public void OnPause(){
+        isPaused = true;
+    }
+    public void OnResume(){
+        isPaused = false;
     }
 }

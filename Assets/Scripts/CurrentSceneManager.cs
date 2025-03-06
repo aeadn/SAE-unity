@@ -9,6 +9,7 @@ public class CurrentSceneManager : MonoBehaviour
     public bool isPaused = false;
     public GameObject pauseScreen; 
     public VoidEventChannel onPause;
+    public VoidEventChannel onResume;
     private void OnEnable(){
         onPlayerDeath.OnEventRaised += Die;
     }
@@ -33,11 +34,13 @@ public class CurrentSceneManager : MonoBehaviour
                 isPaused = false;
                 playerMovement.GetComponent<PlayerMovement>().enabled = true;
                 pauseScreen.SetActive(false);
+                onPause.Raise();
             } else {
                 Time.timeScale = 0;
                 isPaused = true;
                 playerMovement.GetComponent<PlayerMovement>().enabled = false;
                 pauseScreen.SetActive(true);
+                onResume.Raise();
             }
     }
 
@@ -55,6 +58,13 @@ public class CurrentSceneManager : MonoBehaviour
     }
 
     public void RestartGame() {
+        Time.timeScale = 1;
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        playerMovement.GetComponent<PlayerMovement>().enabled = true;
+    }
+    public void ResumeGame(){
+        Time.timeScale = 1;
+        pauseScreen.SetActive(false);
+        playerMovement.GetComponent<PlayerMovement>().enabled = true;
     }
 }
