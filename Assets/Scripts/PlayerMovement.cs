@@ -18,6 +18,7 @@ public class PlayerMovement : MonoBehaviour
     public bool onPause;
     public bool onResume;
     public bool isPaused = false;
+    public Animator animator;
         // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -48,8 +49,11 @@ public class PlayerMovement : MonoBehaviour
     // Update is called once per frame
     void Update()    
     {
-        
+        animator.SetFloat("VelocityX", Mathf.Abs(rb.linearVelocityX));
+        animator.SetFloat("VelocityY", rb.linearVelocityX);
+        animator.SetBool("IsGrounded", isGrounded);
         moveDirectionX = Input.GetAxis("Horizontal");
+        
         if (Input.GetKeyDown(KeyCode.Space) && currentNumberJumps < maxAllowedJumps) {
             Jump();
             currentNumberJumps++;
